@@ -4,7 +4,7 @@ import { Product } from "../../type";
 import ProductItem from "../../components/product/item";
 
 const ProductList = () => {
-	const { data } = useQuery(QueryKeys.PRODUCTS, () =>
+	const { data } = useQuery<Product[]>(QueryKeys.PRODUCTS, () =>
 		fetcher({
 			method: 'GET',
 			path: '/products',
