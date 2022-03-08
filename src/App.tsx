@@ -3,6 +3,7 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { useRoutes } from 'react-router-dom';
 import { routes } from './routes';
 import { getClient } from './queryClient';
+import './scss/index.scss';
 
 const App = () => {
   const element = useRoutes(routes);
