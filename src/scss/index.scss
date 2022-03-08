@@ -1,1 +1,12 @@
 @import 'products';
+@import 'gnb';
+
+body {
+  margin: 0;
+}
+
+#root {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 10px;
+}
