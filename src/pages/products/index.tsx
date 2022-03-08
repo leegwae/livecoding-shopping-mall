@@ -1,5 +1,7 @@
 import { useQuery } from "react-query";
 import { fetcher, QueryKeys } from "../../queryClient";
+import { Product } from "../../type";
+import ProductItem from "../../components/product/item";
 
 const ProductList = () => {
 	const { data } = useQuery(QueryKeys.PRODUCTS, () =>
@@ -11,7 +13,18 @@ const ProductList = () => {
 
 	console.log(data);
 
-	return <div>상품 목록</div>;
+	return (
+		<>
+			<h1>상품 목록</h1>
+			<div>
+				<ul>
+					{data?.map((product: Product) =>
+						<ProductItem {...product} key={product.id} />)
+					}
+				</ul>
+			</div>
+		</>
+	);
 }
 
 export default ProductList;
