@@ -1,11 +1,11 @@
 import { useQuery } from "react-query";
-import { fetcher, QueryKeys } from "../../queryClient";
+import { restFetcher, QueryKeys } from "../../queryClient";
 import { Product } from "../../type";
 import ProductItem from "../../components/product/item";
 
 const ProductList = () => {
 	const { data } = useQuery<Product[]>(QueryKeys.PRODUCTS, () =>
-		fetcher({
+		restFetcher({
 			method: 'GET',
 			path: '/products',
 		})
