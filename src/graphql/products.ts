@@ -5,7 +5,7 @@ export type Product = {
 	imageUrl: string;
 	price: string;
 	title: string;
-	descrption: string;
+	description: string;
 	createAt: string;
 }
 
@@ -19,7 +19,18 @@ const GET_PRODUCTS = gql`
 		imageUrl
 		price
 		title
-		descrption
+		description
+		createAt
+	}
+`;
+
+export const GET_PRODUCT = gql`
+	query GET_PRODUCT {
+		id
+		imageUrl
+		price
+		title
+		description
 		createAt
 	}
 `;
