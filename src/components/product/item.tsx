@@ -6,7 +6,7 @@ const ProductItem = ({
 	imageUrl,
 	price,
 	title,
-	descrption,
+	description,
 	createAt,
 }: Product) => {
 	return (
