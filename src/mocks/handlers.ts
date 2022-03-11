@@ -1,6 +1,6 @@
 import { graphql } from 'msw';
 import { v4 as uuid } from 'uuid';
-import GET_PRODUCTS from '../../graphql/products';
+import GET_PRODUCTS from '../graphql/products';
 
 const mock_products = Array.from({ length: 20 }).map((_, i) => ({
 	id: uuid(),
