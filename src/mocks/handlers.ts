@@ -23,9 +23,6 @@ export const handlers = [
 	graphql.query(GET_PRODUCT, (req, res, ctx) => {
 		return res(
 			ctx.data(mock_products[0])
-			// ctx.data({
-			// 	product: found
-			// })
 		)
 	})
 ];
