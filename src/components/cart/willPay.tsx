@@ -8,14 +8,16 @@ const WillPay = () => {
 	const totalPrice = checkedItems.reduce((acc, { price, amount }) => acc + price * amount, 0);
 
 	return (
-		<div>
-			{checkedItems.map(({ imageUrl, title, price, amount, id }) =>
-				<li key={id}>
-					<ItemData key={id} imageUrl={imageUrl} title={title} price={price} />
-					<p>수량: {amount}</p>
-					<p>금액: {price * amount}</p>
-				</li>
-			)}
+		<div className="cart-willpay">
+			<ul>
+				{checkedItems.map(({ imageUrl, title, price, amount, id }) =>
+					<li key={id}>
+						<ItemData key={id} imageUrl={imageUrl} title={title} price={price} />
+						<p>수량: {amount}</p>
+						<p>금액: {price * amount}</p>
+					</li>
+				)}
+			</ul>
 			<p>총액: {totalPrice}</p>
 		</div>
 	);
