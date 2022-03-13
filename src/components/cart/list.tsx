@@ -11,23 +11,32 @@ const CartList = ({ items }: { items: CartType[] }) => {
 	const formRef = useRef<HTMLFormElement>(null);
 	const checkboxeRefs = items.map(() => createRef<HTMLInputElement>());
 
+	const setAllCheckedFromItems = () => {
+    if (!formRef.current) return;
+    const data = new FormData(formRef.current);
+    const selectedCount = data.getAll('select-item').length;
+    const allChecked = selectedCount === items.length;
+    formRef.current.querySelector<HTMLInputElement>('.select-all')!.checked = allChecked;
+  };
+
+	const setItemsCheckedFromAll = (targetInput: HTMLInputElement) => {
+		const allChecked = targetInput.checked;
+		checkboxeRefs.forEach(ref => {
+			ref.current!.checked = allChecked;
+		});
+	}
+
 	const handleCheckboxChanged = (e?: SyntheticEvent) => {
 		if (!formRef.current) return;
 
 		const targetInput = e?.target as HTMLInputElement;	
-		const data = new FormData(formRef.current);
-		const selectedCount = data.getAll('select-item').length;
-
 		if (targetInput && targetInput.classList.contains('select-all')) {
-			const allChecked = targetInput.checked;
-			checkboxeRefs.forEach(ref => {
-				ref.current!.checked = allChecked;
-			});
+			setItemsCheckedFromAll(targetInput);
 		} else {
-			const allChecked = (selectedCount === items.length);
-			formRef.current.querySelector<HTMLInputElement>('.select-all')!.checked = allChecked;
+			setAllCheckedFromItems();
 		}
 
+		const data = new FormData(formRef.current);
 		setFormData(data);
 	};
 
@@ -36,7 +45,7 @@ const CartList = ({ items }: { items: CartType[] }) => {
 			const itemRef = checkboxeRefs.find(ref => ref.current!.dataset.id === item.id);
 			if (itemRef) itemRef.current!.checked = true;
 		});
-		handleCheckboxChanged();
+		setAllCheckedFromItems();
 	}, [])
 
 	useEffect(() => {
