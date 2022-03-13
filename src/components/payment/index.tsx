@@ -1,20 +1,34 @@
 import React, { useState } from 'react';
+import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { checkedCartState } from '../../atom/cart';
+import { EXECUTE_PAY } from '../../graphql/payment';
+import { graphqlFetcher } from '../../queryClient';
 import WillPay from '../willPay';
 import PaymentModal from './modal';
+
+type PayInfo = {
+	id: string;
+	amount: number;
+}
+type PaymentInfos = PayInfo[];
 
 const Payment = () => {
 	const naviate = useNavigate();
 	const [modalShown, setModalShown] = useState<boolean>(false);
-	const setCheckedCartData = useSetRecoilState(checkedCartState);
+	const [checkedCartData, setCheckedCartData] = useRecoilState(checkedCartState);
 	
+	const { mutate: executePay } = useMutation(
+		(payInfos: PaymentInfos) => graphqlFetcher(EXECUTE_PAY, payInfos)
+	);
+
 	const showModal = () => {
 		setModalShown(!modalShown);
 	};
 
 	const proceed = () => {
+		const payInfos = checkedCartData.map(({ id, amount }) => ({ id, amount }));
 		setCheckedCartData([]);
 		naviate('/products', { replace: true });
 	}
