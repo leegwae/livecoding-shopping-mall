@@ -58,6 +58,7 @@ const CartItem = ({
         min={1}
         onChange={handleUpdateAmount}
       />
+			<button type="button" className="cart-item__delete">삭제</button>
     </li>
 	);
 }
