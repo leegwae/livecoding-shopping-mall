@@ -4,19 +4,20 @@ import CartItem from './item';
 
 const CartList = ({ items }: { items: CartType[] }) => {
 	const formRef = useRef<HTMLFormElement>(null);
+	const checkboxeRefs = items.map(() => createRef<HTMLInputElement>());
 
 	const handleCheckboxChanged = (e: SyntheticEvent) => {
 		if (!formRef.current) return;
 
-		const checkboxes = formRef.current.querySelectorAll<HTMLInputElement>('.cart-item__checkbox');
+		
 		const targetInput = e.target as HTMLInputElement;	
 		const data = new FormData(formRef.current);
 		const selectedCount = data.getAll('select-item').length;
 
 		if (targetInput.classList.contains('select-all')) {
 			const allChecked = targetInput.checked;
-			checkboxes.forEach(checkbox => {
-				checkbox.checked = allChecked;
+			checkboxeRefs.forEach(ref => {
+				ref.current!.checked = allChecked;
 				
 			});
 		} else {
@@ -32,7 +33,7 @@ const CartList = ({ items }: { items: CartType[] }) => {
 				전체선택
 			</label>
 			<ul className="cart">
-				{items.map((item) => <CartItem {...item} key={item.id} />)}
+				{items.map((item, i) => <CartItem {...item} key={item.id} ref={checkboxeRefs[i]}/>)}
 			</ul>
 		</form>
 
