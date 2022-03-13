@@ -10,7 +10,7 @@ const CartItem = ({
 	price,
 	title,
 	amount,
-}: CartType ) => {
+}: CartType) => {
 	const queryClient = getClient();
 	const { mutate: updateCart } = useMutation(
     ({ id, amount }: { id: string; amount: number }) => graphqlFetcher(UPDATE_CART, { id, amount }),
