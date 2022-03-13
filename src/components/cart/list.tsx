@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 import { checkedCartState } from '../../atom/cart';
 import { CartType } from '../../graphql/cart';
 import CartItem from './item';
-import WillPay from './willPay';
+import WillPay from '../willPay';
 
 const CartList = ({ items }: { items: CartType[] }) => {
 	const [formData, setFormData] = useState<FormData>();

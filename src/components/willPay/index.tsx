@@ -2,7 +2,7 @@ import React from 'react'
 import { useRecoilValue } from 'recoil';
 import { Link, useNavigate } from 'react-router-dom';
 import { checkedCartState } from '../../atom/cart';
-import ItemData from './itemData';
+import ItemData from '../cart/itemData';
 
 const WillPay = () => {
 	const navigate = useNavigate();
