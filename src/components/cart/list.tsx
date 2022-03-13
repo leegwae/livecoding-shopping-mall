@@ -1,5 +1,5 @@
 import React, { createRef, SyntheticEvent, useEffect, useRef, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { checkedCartState } from '../../atom/cart';
 import { CartType } from '../../graphql/cart';
 import CartItem from './item';
@@ -7,18 +7,18 @@ import WillPay from './willPay';
 
 const CartList = ({ items }: { items: CartType[] }) => {
 	const [formData, setFormData] = useState<FormData>();
-	const setCheckedCartState = useSetRecoilState(checkedCartState);
+	const [checkedCartData, setCheckedCartData] = useRecoilState(checkedCartState);
 	const formRef = useRef<HTMLFormElement>(null);
 	const checkboxeRefs = items.map(() => createRef<HTMLInputElement>());
 
-	const handleCheckboxChanged = (e: SyntheticEvent) => {
+	const handleCheckboxChanged = (e?: SyntheticEvent) => {
 		if (!formRef.current) return;
 
-		const targetInput = e.target as HTMLInputElement;	
+		const targetInput = e?.target as HTMLInputElement;	
 		const data = new FormData(formRef.current);
 		const selectedCount = data.getAll('select-item').length;
 
-		if (targetInput.classList.contains('select-all')) {
+		if (targetInput && targetInput.classList.contains('select-all')) {
 			const allChecked = targetInput.checked;
 			checkboxeRefs.forEach(ref => {
 				ref.current!.checked = allChecked;
@@ -32,11 +32,19 @@ const CartList = ({ items }: { items: CartType[] }) => {
 	};
 
 	useEffect(() => {
+		checkedCartData.forEach((item) => {
+			const itemRef = checkboxeRefs.find(ref => ref.current!.dataset.id === item.id);
+			if (itemRef) itemRef.current!.checked = true;
+		});
+		handleCheckboxChanged();
+	}, [])
+
+	useEffect(() => {
 		const checkedItems = checkboxeRefs.reduce<CartType[]>((res, ref, i) => {
 			if (ref.current!.checked) res.push(items[i])
 			return res
 		}, []);
-		setCheckedCartState(checkedItems);
+		setCheckedCartData(checkedItems);
 	}, [items, formData]);
 
 	return (
