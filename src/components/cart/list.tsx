@@ -3,6 +3,7 @@ import { useSetRecoilState } from 'recoil';
 import { checkedCartState } from '../../atom/cart';
 import { CartType } from '../../graphql/cart';
 import CartItem from './item';
+import WillPay from './willPay';
 
 const CartList = ({ items }: { items: CartType[] }) => {
 	const setCheckedCartState = useSetRecoilState(checkedCartState);
@@ -43,6 +44,7 @@ const CartList = ({ items }: { items: CartType[] }) => {
 			<ul className="cart">
 				{items.map((item, i) => <CartItem {...item} key={item.id} ref={checkboxeRefs[i]}/>)}
 			</ul>
+			<WillPay />
 		</form>
 
 	)
