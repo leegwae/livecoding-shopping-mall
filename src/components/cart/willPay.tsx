@@ -1,5 +1,6 @@
 import React from 'react'
 import { useRecoilValue } from 'recoil';
+import { Link } from 'react-router-dom';
 import { checkedCartState } from '../../atom/cart';
 import ItemData from './itemData';
 
@@ -19,6 +20,7 @@ const WillPay = () => {
 				)}
 			</ul>
 			<p>총액: {totalPrice}</p>
+			<Link to="/payment">결제하기</Link>
 		</div>
 	);
 };
