@@ -1,7 +1,7 @@
 import React, { SyntheticEvent } from 'react'
 import { useMutation } from 'react-query';
 import { stringify } from 'uuid';
-import { CartType, UPDATE_CART } from '../../graphql/cart';
+import { CartType, DELETE_CART, UPDATE_CART } from '../../graphql/cart';
 import { getClient, graphqlFetcher, QueryKeys } from '../../queryClient';
 
 const CartItem = ({
@@ -39,11 +39,22 @@ const CartItem = ({
 		}
 	);
 
+	// optimistic update 생략
+  const { mutate: deleteCart } = useMutation(
+    ({ id }: { id: string }) => graphqlFetcher(DELETE_CART, { id }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(QueryKeys.CART)
+      },
+    },
+  )
+
 	const handleUpdateAmount = (e: SyntheticEvent) => {
 		const amount = Number((e.target as HTMLInputElement).value);
-		updateCart({ id, amount })
-		
+		if (amount >= 1) updateCart({ id, amount })
 	};
+
+	const handleDeleteItem = () => deleteCart({ id });
 
 	return (
     <li className="cart-item">
@@ -58,7 +69,7 @@ const CartItem = ({
         min={1}
         onChange={handleUpdateAmount}
       />
-			<button type="button" className="cart-item__delete">삭제</button>
+			<button type="button" className="cart-item__delete" onClick={handleDeleteItem}>삭제</button>
     </li>
 	);
 }
