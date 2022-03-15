@@ -17,7 +17,7 @@ const productResolver: Resolver = {
 		},
 		product: (parent, { id }, context, info) => {
 			const found = mockProducts.find(item => item.id === id)
-			if (!found) return found;
+			if (found) return found;
 			return null;
 		}
 	},
