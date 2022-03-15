@@ -12,13 +12,13 @@ const PORT_SERVER = 8000;
 	await server.start();
 	server.applyMiddleware({
 		app,
-		path: 'graphql',
+		path: '/graphql',
 		cors: {
-			origin: [`http://localhost:${PORT_CLIENT}`],
+			origin: [`http://localhost:${PORT_CLIENT}`, 'https://studio.apollographql.com'],
 			credentials: true,
 		}
 	});
 	await app.listen({ port: PORT_SERVER });
-	console.log(`server listening on ${PORT_SERVER}`);
+	console.log(`server listening on ${PORT_SERVER}...`);
 })();
 
