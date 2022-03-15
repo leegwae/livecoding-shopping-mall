@@ -8,11 +8,14 @@ import WillPay from '../willPay';
 
 const CartList = ({ items }: { items: CartType[] }) => {
 	const navigate = useNavigate();
+	// ===================== [ 상태 관리 변수들 ] ========================================
 	const [formData, setFormData] = useState<FormData>();
 	const [checkedCartData, setCheckedCartData] = useRecoilState(checkedCartState);
+	// ===================== [ ref 관련 변수들 ] ========================================= 
 	const formRef = useRef<HTMLFormElement>(null);
 	const checkboxeRefs = items.map(() => createRef<HTMLInputElement>());
 
+	// 개별 버튼 체크에 따라 전체 선택 버튼 핸들
 	const setAllCheckedFromItems = () => {
     if (!formRef.current) return;
     const data = new FormData(formRef.current);
@@ -21,11 +24,10 @@ const CartList = ({ items }: { items: CartType[] }) => {
     formRef.current.querySelector<HTMLInputElement>('.select-all')!.checked = allChecked;
   };
 
+	// 전체 선택 버튼으로 개별 버튼 전부 체크하기
 	const setItemsCheckedFromAll = (targetInput: HTMLInputElement) => {
 		const allChecked = targetInput.checked;
-		checkboxeRefs.forEach(ref => {
-			ref.current!.checked = allChecked;
-		});
+		checkboxeRefs.forEach(ref => ref.current!.checked = allChecked);
 	}
 
 	const handleCheckboxChanged = (e?: SyntheticEvent) => {
