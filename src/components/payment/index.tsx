@@ -8,11 +8,7 @@ import { graphqlFetcher } from '../../queryClient';
 import WillPay from '../willPay';
 import PaymentModal from './modal';
 
-type PayInfo = {
-	id: string;
-	amount: number;
-}
-type PaymentInfos = PayInfo[];
+type PaymentInfos = string[];
 
 const Payment = () => {
 	const naviate = useNavigate();
@@ -28,7 +24,8 @@ const Payment = () => {
 	};
 
 	const proceed = () => {
-		const payInfos = checkedCartData.map(({ id, amount }) => ({ id, amount }));
+		const payInfos = checkedCartData.map(({ id }) => id);
+		executePay(payInfos);
 		setCheckedCartData([]);
 		naviate('/products', { replace: true });
 	}
