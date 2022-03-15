@@ -1,10 +1,12 @@
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
+import schema from './schema';
+import resolvers from './resolvers';
 
 const PORT_CLIENT = 3000;
 const PORT_SERVER = 8000;
 (async () => {
-	const server = new ApolloServer(null);
+	const server = new ApolloServer({ typeDefs: schema, resolvers });
 
 	const app = express();
 	await server.start();
