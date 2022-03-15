@@ -1,3 +1,5 @@
+import { Resolver } from './types';
+
 const mockProducts = (() =>
   Array.from({ length: 20 }).map((_, i) => ({
     id: i + 1 + '',
@@ -10,7 +12,7 @@ const mockProducts = (() =>
 
 let cartData = [{ id: '1', amount: 1 }, { id: '2', amount: 2 }];
 
-const cartResolver = {
+const cartResolver: Resolver = {
 	Query: {
 		cart: (parent, args, context, info) => {
 			return cartData;
@@ -52,7 +54,7 @@ const cartResolver = {
 
 			return id; 
 		},
-		executeCart: (parent, { ids }, context, info) => {
+		executePay: (parent, { ids }, context, info) => {
 			const newCartdata = cartData.filter(cartItem => !ids.includes(cartItem.id));
 			cartData = newCartdata;
 
