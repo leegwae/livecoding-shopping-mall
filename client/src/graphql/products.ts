@@ -3,10 +3,10 @@ import { gql } from 'graphql-tag';
 export type Product = {
 	id: string;
 	imageUrl: string;
-	price: string;
+	price: number;
 	title: string;
 	description: string;
-	createAt: string;
+	createAt: number;
 }
 
 export type Products = {
