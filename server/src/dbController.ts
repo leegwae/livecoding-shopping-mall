@@ -23,7 +23,7 @@ export const readDB = (target: DBField) => {
 
 export const writeDB = (target: DBField, data: any) => {
 	try {
-		fs.writeFileSync(fileNames[target], JSON.stringify(data));
+		fs.writeFileSync(fileNames[target], JSON.stringify(data, null, '  '));
 	} catch (err) {
 		console.error(err);
 	}
