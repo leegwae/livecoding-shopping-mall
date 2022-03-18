@@ -8,6 +8,7 @@ const CartIndex = lazy(() => import('./pages/cart/index'));
 const ProductsIndex = lazy(() => import('./pages/products/index'));
 const ProductsId = lazy(() => import('./pages/products/[id]'));
 const PaymentIndex = lazy(() => import('./pages/payment'));
+const AdminIndex = lazy(() => import('./pages/admin'));
 
 export const routes = [
   {
@@ -18,7 +19,8 @@ export const routes = [
       { path: '/cart', element: <CartIndex />, index: true},
       { path: '/products', element: <ProductsIndex />, index: true},
       { path: '/products/:id', element: <ProductsId />, },
-      { path: '/payment', element: <Payment />, index: true}
+      { path: '/payment', element: <Payment />, index: true},
+      { path: '/admin', element: <AdminIndex />, index: true},
     ]
   }
 ]
@@ -28,5 +30,6 @@ export const pages = [
   { route: '/cart'},
   { route: '/products' },
   { route: '/products/:id' },
-  { route: '/payment'}
+  { route: '/payment'},
+  { route: '/admin'},
 ]
