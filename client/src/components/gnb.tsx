@@ -7,7 +7,7 @@ const Gnb = () => (
 				<Link to="/">메인으로</Link>
 			</li>			
 			<li>
-				<Link to="products">상품 목록</Link>
+				<Link to="/products">상품 목록</Link>
 			</li>
 			<li>
 				<Link to="/cart">장바구니</Link>
