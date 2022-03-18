@@ -8,7 +8,7 @@ const useInifniteScroll = (targetRef: RefObject<HTMLDivElement>) => {
 		() => {
 			if (!observerRef.current) {
 				observerRef.current = new IntersectionObserver(entries => {
-					setIntersecting(entries[0]?.isIntersecting);
+					setIntersecting(entries.some(entry => entry.isIntersecting));
 				});
 			}
 			return observerRef.current;
