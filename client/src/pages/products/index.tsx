@@ -3,11 +3,11 @@ import { useInfiniteQuery } from "react-query";
 import { graphqlFetcher, QueryKeys } from "../../queryClient";
 import GET_PRODUCTS, { Products } from "../../graphql/products";
 import ProductList from "../../components/product/list";
-import useInifniteScroll from "../../hooks/useInfiniteScroll";
+import useIntersection from "../../hooks/useIntersection";
 
 const ProductListPage = () => {
 	const fetchMoreRef = useRef<HTMLDivElement>(null);
-	const intersecting = useInifniteScroll(fetchMoreRef);
+	const intersecting = useIntersection(fetchMoreRef);
 	
 	const { data, isSuccess, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteQuery<Products>(
 		QueryKeys.PRODUCTS,

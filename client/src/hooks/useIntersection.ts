@@ -1,6 +1,6 @@
 import { RefObject, useCallback, useRef, useState, useEffect } from "react"
 ;
-const useInifniteScroll = (targetRef: RefObject<HTMLDivElement>) => { 
+const useIntersection = (targetRef: RefObject<HTMLDivElement>) => { 
 	const observerRef = useRef<IntersectionObserver>();
 	const [intersecting, setIntersecting] = useState(false);
 
@@ -23,4 +23,4 @@ const useInifniteScroll = (targetRef: RefObject<HTMLDivElement>) => {
 	return intersecting;
 };
 
-export default useInifniteScroll;
+export default useIntersection;
