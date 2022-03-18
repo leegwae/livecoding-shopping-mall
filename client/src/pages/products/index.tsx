@@ -20,14 +20,14 @@ const ProductListPage = () => {
 	);
 
 	useEffect(() => {
-		if (!intersecting || !isSuccess || !hasNextPage && isFetchingNextPage) return;
+		if (!intersecting || !isSuccess || !hasNextPage || isFetchingNextPage) return;
 		fetchNextPage();
 		
 	}, [intersecting]);
 
 	return (
 		<div>
-			<h1>상품 목록</h1>
+			<h2>상품 목록</h2>
 			<ProductList list={data?.pages || []} />
 			<div ref={fetchMoreRef} />
 		</div>
