@@ -4,8 +4,6 @@ import { Cart } from './types';
 
 const setJSON = (data: Cart) => writeDB(DBField.CART, data);
 
-let cartData = [{ id: '1', amount: 1 }, { id: '2', amount: 2 }];
-
 const cartResolver: Resolver = {
 	Query: {
 		cart: (parent, args, { db }, info) => {
