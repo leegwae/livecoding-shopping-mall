@@ -7,3 +7,14 @@
 
 (2022/03/07~)
 
+## Getting started
+
+- 서버 실행
+```
+yarn server
+```
+- 클라이언트 실행
+```
+yarn client
+```
+Go to localhost:3000
