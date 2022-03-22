@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { graphqlFetcher, QueryKeys } from '../../queryClient';
 import GET_PRODUCTS, { Products } from '../../graphql/products';
@@ -7,6 +7,7 @@ import AddForm from '../../components/admin/addForm';
 import AdminList from './list';
 
 const Admin = () => {
+	const [editingIndex, setEditingIndex] = useState<number | null>(null);
 	const fetchMoreRef = useRef<HTMLDivElement>(null);
 	const intersecting = useIntersection(fetchMoreRef);
 	
@@ -26,10 +27,18 @@ const Admin = () => {
 		
 	}, [intersecting]);
 
+	const startEdit = (index: number) => () => setEditingIndex(index);
+	const doneEdit = () => setEditingIndex(null);
+
 	return (
 		<>
 			<AddForm />
-			<AdminList list={data?.pages || []} />
+			<AdminList
+				list={data?.pages || []}
+				editingIndex={editingIndex}
+				startEdit={startEdit}
+				doneEdit={doneEdit}
+			/>
 			<div ref={fetchMoreRef} />
 		</>
 	);
