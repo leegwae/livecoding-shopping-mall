@@ -2,9 +2,9 @@ import React, { useEffect, useRef } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { graphqlFetcher, QueryKeys } from '../../queryClient';
 import GET_PRODUCTS, { Products } from '../../graphql/products';
-import ProductList from '../../components/product/list';
 import useIntersection from '../../hooks/useIntersection';
 import AddForm from '../../components/admin/addForm';
+import AdminList from './list';
 
 const Admin = () => {
 	const fetchMoreRef = useRef<HTMLDivElement>(null);
@@ -29,7 +29,7 @@ const Admin = () => {
 	return (
 		<>
 			<AddForm />
-			<ProductList list={data?.pages || []} />
+			<AdminList list={data?.pages || []} />
 			<div ref={fetchMoreRef} />
 		</>
 	);
