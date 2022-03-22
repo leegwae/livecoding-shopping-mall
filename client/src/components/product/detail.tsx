@@ -7,7 +7,7 @@ const ProductDetail = ({
 		price,
 		title,
 		description,
-		createAt,
+		createdAt,
   },
 }: {
   item: Product

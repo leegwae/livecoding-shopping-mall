@@ -6,7 +6,7 @@ export type Product = {
 	price: number;
 	title: string;
 	description: string;
-	createAt: number;
+	createdAt: number;
 }
 
 export type Products = {

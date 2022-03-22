@@ -10,7 +10,7 @@ const ProductItem = ({
 	price,
 	title,
 	description,
-	createAt,
+	createdAt,
 }: Product) => {
 	const { mutate: addToCart } = useMutation((id: string) => graphqlFetcher(ADD_CART, { id }));
 
