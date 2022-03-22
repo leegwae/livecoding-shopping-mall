@@ -14,8 +14,8 @@ export type Products = {
 }
 
 const GET_PRODUCTS = gql`
-	query GET_PRODUCTS($cursor: ID) {
-		products(cursor: $cursor) {
+	query GET_PRODUCTS($cursor: ID, $showDelected: Boolean) {
+		products(cursor: $cursor, showDelected: $showDelected) {
 			id
 			imageUrl
 			price
