@@ -11,9 +11,9 @@ const WillPay = ({
 		handleSubmit: (e: SyntheticEvent) => void;
 		submitTitle: string;
 	}) => {
-	const navigate = useNavigate();
 	const checkedItems = useRecoilValue(checkedCartState);
-	const totalPrice = checkedItems.reduce((acc, { product: { price }, amount }) => acc + price * amount, 0);
+	const totalPrice =
+		checkedItems.reduce((acc, { product: { price }, amount }) => acc + price * amount, 0);
 
 
 	return (
