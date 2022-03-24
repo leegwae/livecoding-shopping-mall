@@ -1,16 +1,25 @@
+import { collection, query, orderBy, where, limit, getDocs, getDoc, startAfter, DocumentData, doc } from 'firebase/firestore';
 import { DBField, writeDB } from '../dbController';
 import { Resolver } from './types';
 import { Cart } from './types';
+import { db } from '../../firebase';
 
 const setJSON = (data: Cart) => writeDB(DBField.CART, data);
 
 const cartResolver: Resolver = {
 	Query: {
-		cart: (parent, args, { db }, info) => {
-			return db.cart.map((cartItem)=> ({
-				...db.products.find((item) => item.id === cartItem.id),
-				amount: cartItem.amount
-			}));
+		cart: async (parent, args) => {
+			const cart = collection(db, 'cart');
+			const snapshot = await getDocs(cart);
+			const data: DocumentData[] = [];
+			snapshot.forEach(doc => {
+				const d = doc.data();
+				data.push({
+					id: doc.id,
+					...d,
+				});
+			});
+			return data;
 		},
 	},
 
@@ -77,7 +86,14 @@ const cartResolver: Resolver = {
 		},
 	},
 	CartItem: {
-		product: (cartItem, args, { db }) => db.products.find((product: any) => product.id === cartItem.id),
+		product: async (cartItem, args) => {
+			const product = await getDoc(cartItem.product);
+			const data = product.data() as any;
+			return {
+				...data,
+				id: product.id,
+			}
+		},
 	}
 }
 
