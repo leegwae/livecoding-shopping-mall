@@ -1,24 +1,37 @@
 import { v4 as uuid } from 'uuid';
+import { collection, query, orderBy, where, limit, getDocs, getDoc, startAfter, DocumentData, doc } from 'firebase/firestore';
 import { Products, Resolver } from './types';
 import { DBField, writeDB } from '../dbController';
+import { db } from '../../firebase';
+
+const PAGE_SIZE = 15;
 
 const setJSON = (data: Products) => writeDB(DBField.PRODUCTS, data);
 
 const productResolver: Resolver = {
 	Query: {
-		products: (parent, { cursor = '', showDelected = false }, { db }, info) => {
-			const [hasCreatedAt, hasNotCreatedAt] = [
-				db.products.filter(product => !!product.createdAt).sort((a, b) => b.createdAt! - a.createdAt!),
-				db.products.filter(product => !product.createdAt)
-			];
-			const filtered = showDelected ? [...hasCreatedAt, ...hasNotCreatedAt] : hasCreatedAt;
-			const from = filtered.findIndex(product => product.id === cursor) + 1;
-			return filtered.slice(from, from + 15) || [];
+		products: async (parent, { cursor = '', showDelected = false }) => {
+			const products = collection(db, 'products');
+			const queryOptions = [orderBy('createdAt', 'desc')];
+			if (cursor) queryOptions.push(startAfter(cursor));
+			if (!showDelected) queryOptions.unshift(where('createdAt', '!=', null));
+			const q = query(products, ...queryOptions, limit(PAGE_SIZE))
+			const snapshot = await getDocs(q);
+			const data: DocumentData[] = [];
+			snapshot.forEach(doc => data.push(
+				{
+					id: doc.id,
+					...doc.data(),
+				}
+			));
+			return data;
 		},
-		product: (parent, { id, cursor }, { db }, info) => {
-			const found = db.products.find(item => item.id === id)
-			if (found) return found;
-			return null;
+		product: async (parent, { id }) => {
+			const snapshot = await getDoc(doc(db, 'products', id));
+			return {
+				...snapshot.data(),
+				id: snapshot.id,
+			}
 		}
 	},
 
