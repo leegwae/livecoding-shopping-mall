@@ -1,19 +1,18 @@
-import { v4 as uuid } from 'uuid';
 import { collection, query, orderBy, where, limit, getDocs, getDoc, startAfter, DocumentData, doc, serverTimestamp, addDoc, updateDoc } from 'firebase/firestore';
 import { Products, Resolver } from './types';
-import { DBField, writeDB } from '../dbController';
 import { db } from '../../firebase';
 
 const PAGE_SIZE = 15;
-
-const setJSON = (data: Products) => writeDB(DBField.PRODUCTS, data);
 
 const productResolver: Resolver = {
 	Query: {
 		products: async (parent, { cursor = '', showDelected = false }) => {
 			const products = collection(db, 'products');
 			const queryOptions = [orderBy('createdAt', 'desc')];
-			if (cursor) queryOptions.push(startAfter(cursor));
+			if (cursor) {
+				const snapshot = await getDoc(doc(db, 'products', cursor));
+				queryOptions.push(startAfter(snapshot));
+			}
 			if (!showDelected) queryOptions.unshift(where('createdAt', '!=', null));
 			const q = query(products, ...queryOptions, limit(PAGE_SIZE))
 			const snapshot = await getDocs(q);
