@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { collection, query, orderBy, where, limit, getDocs, getDoc, startAfter, DocumentData, doc } from 'firebase/firestore';
+import { collection, query, orderBy, where, limit, getDocs, getDoc, startAfter, DocumentData, doc, serverTimestamp, addDoc, updateDoc } from 'firebase/firestore';
 import { Products, Resolver } from './types';
 import { DBField, writeDB } from '../dbController';
 import { db } from '../../firebase';
@@ -36,42 +36,35 @@ const productResolver: Resolver = {
 	},
 
 	Mutation: {
-    addProduct: (parent, { imageUrl, price, title, description }, { db }) => {
+    addProduct: async (parent, { imageUrl, price, title, description }) => {
       const newProduct = {
-        id: uuid(),
         imageUrl,
         price,
         title,
         description,
-        createdAt: Date.now(),
+        createdAt: serverTimestamp(),
       }
-      db.products.push(newProduct)
-      setJSON(db.products)
-      return newProduct
+			const result = await addDoc(collection(db, 'products'), newProduct);
+			const snapshot = await getDoc(result);
+      return {
+				...snapshot.data(),
+				id: snapshot.id,
+			}
     },
-		updateProduct: (parent, { id, ...data }, { db }) => {
-			const existProductIndex = db.products.findIndex(item => item.id === id);
-			if (existProductIndex < 0) throw new Error("없는 상품입니다!");
-
-			const updatedItem = {
-				...db.products[existProductIndex],
-				...data,
+		updateProduct: async (parent, { id, ...data }) => {
+			const productRef = doc(db, 'products', id);
+			if (!productRef) throw new Error('상품이 없습니다');
+			await updateDoc(productRef, data);
+			const snapshot = await getDoc(productRef);
+			return {
+				...snapshot.data(),
+				id: snapshot.id,
 			};
-			db.products.splice(existProductIndex, 1, updatedItem);
-			setJSON(db.products);
-			return updatedItem;
 		},
-		deleteProduct: (praent, { id }, { db }) => {
-			const existProductIndex = db.products.findIndex(item => item.id === id);
-			if (existProductIndex < 0) throw new Error("없는 상품입니다!");
-
-			const updatedItem = {
-				...db.products[existProductIndex]
-			};
-
-			delete updatedItem.createdAt;
-			db.products.splice(existProductIndex, 1, updatedItem);
-			setJSON(db.products);
+		deleteProduct: async (praent, { id }) => {
+			const productRef = doc(db, 'products', id);
+			if (!productRef) throw new Error('상품이 없습니다');
+			await updateDoc(productRef, { createdAt: null });
 			return id;
 		}
 	}
