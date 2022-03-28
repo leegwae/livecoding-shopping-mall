@@ -12,7 +12,6 @@
   ],
   "scripts": {
     "client": "yarn workspace client dev",
-    "server": "yarn workspace server dev",
-    "reset": "yarn workspace server reset" 
+    "server": "yarn workspace server dev"
   }
 }
