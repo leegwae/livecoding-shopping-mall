@@ -1,10 +1,7 @@
 import { collection, query, orderBy, where, limit, getDocs, getDoc, startAfter, DocumentData, doc, updateDoc, increment, addDoc, deleteDoc } from 'firebase/firestore';
-import { DBField, writeDB } from '../dbController';
 import { Resolver } from './types';
 import { Cart, Product } from './types';
 import { db } from '../../firebase';
-
-const setJSON = (data: Cart) => writeDB(DBField.CART, data);
 
 const cartResolver: Resolver = {
 	Query: {
