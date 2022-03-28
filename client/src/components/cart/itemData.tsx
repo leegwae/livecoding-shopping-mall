@@ -1,8 +1,8 @@
 import React from 'react';
-import { CartType } from '../../graphql/cart';
+import { Product } from '../../graphql/products';
 
 
-const ItemData = ({ imageUrl, price, title }: Pick<CartType, 'imageUrl' | 'price' | 'title'>) => {
+const ItemData = ({ imageUrl, price, title }: Pick<Product, 'imageUrl' | 'price' | 'title'>) => {
 	return (
 		<div>
 			<img className="cart-item__image" src={imageUrl} />
