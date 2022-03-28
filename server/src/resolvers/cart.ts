@@ -1,7 +1,7 @@
 import { collection, query, orderBy, where, limit, getDocs, getDoc, startAfter, DocumentData, doc, updateDoc, increment, addDoc, deleteDoc } from 'firebase/firestore';
 import { Resolver } from './types';
 import { Cart, Product } from './types';
-import { db } from '../../firebase';
+import { db } from '../firebase';
 
 const cartResolver: Resolver = {
 	Query: {

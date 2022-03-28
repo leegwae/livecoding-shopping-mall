@@ -1,6 +1,6 @@
 import { collection, query, orderBy, where, limit, getDocs, getDoc, startAfter, DocumentData, doc, serverTimestamp, addDoc, updateDoc } from 'firebase/firestore';
 import { Products, Resolver } from './types';
-import { db } from '../../firebase';
+import { db } from '../firebase';
 
 const PAGE_SIZE = 15;
 
