@@ -2,10 +2,11 @@ import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import schema from './schema';
 import resolvers from './resolvers';
+import env from './envLoader';
 
-const PORT_CLIENT = 3000;
-const PORT_SERVER = process.env.PORT || 8000;
 (async () => {
+	const clientUrl = env.CLIENT_URL as string;
+	const port = env.PORT || 8000;
 	const server = new ApolloServer({
 		typeDefs: schema,
 		resolvers,
@@ -17,12 +18,12 @@ const PORT_SERVER = process.env.PORT || 8000;
 		app,
 		path: '/graphql',
 		cors: {
-			origin: [`http://localhost:${PORT_CLIENT}`, 'https://studio.apollographql.com'],
+			origin: [clientUrl, 'https://studio.apollographql.com'],
 			credentials: true,
 		}
 	});
-	await app.listen({ port: PORT_SERVER });
+	await app.listen({ port });
 
-	console.log(`server listening on ${PORT_SERVER}...`);
+	console.log(`server listening on ${port}...`);
 })();
 
